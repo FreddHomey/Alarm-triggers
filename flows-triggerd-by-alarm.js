@@ -10,11 +10,15 @@ Object.entries(advancedFlows).forEach(([flowId, flow]) => {
     Object.values(flow.cards).forEach(card => {
         // Check if the card is a trigger and if it's an alarm trigger
         if (card.type === "trigger" && card.ownerUri === "homey:manager:alarms") {
-            // Extract the flow name and alarm information
+            // Check if the alarm argument exists to avoid errors
+            const alarmName = card.args?.alarm?.name || "Any alarm goes off";
+            const alarmId = card.args?.alarm?.id || "N/A";
+
+            // Add the flow name and alarm information to the array
             alarmTriggeredFlows.push({
                 flowName: flow.name,
-                alarmName: card.args.alarm.name,
-                alarmId: card.args.alarm.id
+                alarmName: alarmName,
+                alarmId: alarmId
             });
         }
     });
